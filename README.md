@@ -63,3 +63,10 @@ The trade-off: this library only throttles *attempts*. It does not implement bac
 `withRetry` consumes the token *before* calling `fn`. If `fn` then throws or rejects, the token is already spent and is not refunded. This is deliberate: we are throttling attempts, not successes, and refunding on failure would let a persistently-failing dependency burst past the budget. If you need stricter accounting, call `tryReserve()` yourself and only spend the token once your attempt has a result you accept.
 
 `RETRY_DENIED` is a frozen sentinel object, not a thrown error, so callers can distinguish "denied by budget" from "fn ran and returned `undefined`" without a try/catch. Compare with `===`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
