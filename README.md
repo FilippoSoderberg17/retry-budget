@@ -76,3 +76,8 @@ The window keeps a bounded buffer, so `push` is constant time and memory does no
 grow with the length of the stream. `peak` and `trough` are linear in the window
 size, which is the trade that keeps `push` cheap.
 
+## Contributing
+
+Issues and pull requests are welcome. Please keep the dependency list empty —
+that constraint is the point of the project, not an oversight.
+
